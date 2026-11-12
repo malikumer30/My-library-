@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#11101a">
+<title>My Library</title>
+<style>
+:root{--bg:#171316;--panel:#211a1e;--panel2:#2b2227;--text:#f4edf0;--muted:#b9aeb3;--pink:#a64d68;--lav:#d0a0ad;--line:#49343d}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 12% 0%,#49303a 0,transparent 38%),radial-gradient(ellipse at 90% 18%,#343034 0,transparent 38%),var(--bg);color:var(--text);font-family:"Palatino Linotype",Palatino,Georgia,serif;min-height:100vh;animation:pageIn .85s ease both}
+@keyframes pageIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes floatGlow{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(-12px);opacity:1}}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+header{padding:54px 7vw 34px;max-width:1200px;margin:auto;position:relative}
+header:after{content:"✦";position:absolute;right:10%;top:55px;color:#c18a9b;font-size:2rem;animation:floatGlow 4s ease-in-out infinite}
+.eyebrow{color:#c98b9c;letter-spacing:.24em;text-transform:uppercase;font-size:.7rem;font-weight:800}
+.hero{font-family:"Bodoni 72",Didot,"Times New Roman",serif;font-size:clamp(3.2rem,8vw,6rem);line-height:.98;margin:18px 0 15px;letter-spacing:-.055em;font-weight:500}
+.hero span{font-style:italic;background:linear-gradient(100deg,#f0dce2,#b86d83,#e7c5ce,#f0dce2);background-size:200% auto;color:transparent;background-clip:text;-webkit-background-clip:text;animation:shimmer 7s linear infinite}
+.sub{color:var(--muted);max-width:560px;line-height:1.8;font-family:Georgia,serif}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.stat{background:#ffffff08;border:1px solid var(--line);padding:12px 17px;border-radius:15px;min-width:110px;backdrop-filter:blur(8px);transition:transform .25s,border-color .25s}.stat:hover{transform:translateY(-4px);border-color:#a66b7d}.stat b{display:block;font-size:1.4rem}.stat small{color:var(--muted);font-family:system-ui,sans-serif}
+main{max-width:1200px;margin:auto;padding:0 7vw 70px}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:12px 0 26px;position:relative;z-index:2}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab,.filter,button{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:10px 16px;cursor:pointer;font:inherit;touch-action:manipulation;position:relative;z-index:1;transition:background .22s,color .22s,border-color .22s,transform .22s,box-shadow .22s}
+.tab:hover,.filter:hover,button:hover{transform:translateY(-2px);border-color:#a66b7d;box-shadow:0 7px 20px #09060955}
+.tab.active,.filter.active{background:#87445a;color:#fff4f6;border-color:#a96a7e;font-weight:750;box-shadow:0 0 18px #8e425d35}
+.add{background:linear-gradient(110deg,#87445a,#a65b70,#87445a);background-size:200% auto;color:#fff;border:1px solid #b87588;font-weight:800;box-shadow:0 8px 22px #09060955}
+.add:hover{background-position:right center}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:24px 0 16px}
+.section-head h2{font:clamp(1.9rem,4vw,2.5rem) "Bodoni 72",Didot,Georgia,serif;margin:0;letter-spacing:-.025em}
+.section-head p{color:var(--muted);margin:6px 0 0;font-size:.9rem;font-family:system-ui,sans-serif}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;position:relative;z-index:2}
+.filter{font-size:.82rem;padding:7px 12px;font-family:system-ui,sans-serif}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:15px}
+.card{background:linear-gradient(145deg,#2a2025,#1c171a);border:1px solid var(--line);border-radius:20px;padding:18px;min-height:210px;display:flex;flex-direction:column;position:relative;overflow:hidden;animation:cardIn .55s both;transition:transform .28s,border-color .28s,box-shadow .28s}
+.card:hover{transform:translateY(-6px);border-color:#a66b7d;box-shadow:0 14px 32px #08060870}
+.card:before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;background:#a64d681c;right:-55px;top:-60px;transition:transform .5s}
+.card:hover:before{transform:scale(1.35)}
+.card-top{display:flex;justify-content:space-between;align-items:center;position:relative}
+.symbol{width:42px;height:42px;border-radius:13px;background:#ffffff12;display:grid;place-items:center;font-size:1.3rem}
+.status{font-size:.68rem;padding:6px 9px;border-radius:99px;background:#d0a0ad20;color:#e0b0bd;font-weight:700;font-family:system-ui,sans-serif}
+.status.done{background:#a8c4b01c;color:#b6d6c7}.status.progress{background:#e0bd8b20;color:#e8c99c}
+.card h3{font:1.42rem "Bodoni 72",Didot,Georgia,serif;margin:18px 0 7px;position:relative}
+.meta{font-size:.82rem;color:var(--muted);line-height:1.5;font-family:system-ui,sans-serif}
+.card-bottom{margin-top:auto;padding-top:18px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.8rem}
+.stars{color:#d9b58a;letter-spacing:2px}.delete{border:0;background:transparent;color:#b9aeb3;padding:3px 7px;font-size:1rem}
+.empty{border:1px dashed var(--line);border-radius:18px;padding:35px;text-align:center;color:var(--muted);grid-column:1/-1}
+.modal{display:none;position:fixed;inset:0;background:#090609d9;z-index:5;padding:18px;align-items:center;justify-content:center;backdrop-filter:blur(7px)}
+.modal.show{display:flex;animation:pageIn .25s ease}
+.dialog{width:min(460px,100%);background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 20px 60px #0009}
+.dialog h2{font:2rem "Bodoni 72",Didot,Georgia,serif;margin:0 0 18px}
+.field{display:grid;gap:7px;margin:13px 0}.field label{font-size:.83rem;color:var(--muted);font-family:system-ui,sans-serif}
+input,select,textarea{width:100%;background:#171316;border:1px solid var(--line);border-radius:11px;padding:12px;color:var(--text);font:inherit}
+textarea{resize:vertical}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px}
+.note{margin-top:35px;text-align:center;color:var(--muted);font-size:.8rem;line-height:1.6;font-family:system-ui,sans-serif}
+.tab:focus-visible,.filter:focus-visible,button:focus-visible{outline:2px solid #d0a0ad;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+@media(max-width:600px){header{padding-top:38px}.stat{flex:1}.toolbar{align-items:stretch}.tabs{width:100%}.tab{flex:1}.add{width:100%}.section-head{align-items:start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">YOUR PERSONAL COLLECTION · STORIES TO KEEP</div>
+  <h1 class="hero">My <span>Library</span></h1>
+  <p class="sub">Your personal shelf for manhwa, K-dramas, favourite characters, and stories worth remembering.</p>
+  <div class="stats">
+    <div class="stat"><b id="total">3</b><small>All entries</small></div>
+    <div class="stat"><b id="readCount">1</b><small>Manhwa</small></div>
+    <div class="stat"><b id="dramaCount">2</b><small>K-dramas</small></div>
+  </div>
+</header>
+<main>
+  <div class="toolbar">
+    <div class="tabs">
+      <button class="tab active" data-kind="all">Everything</button>
+      <button class="tab" data-kind="manhwa">Manhwa</button>
+      <button class="tab" data-kind="drama">K-dramas</button>
+    </div>
+    <button class="add" id="openModal">＋ Add to my library</button>
+  </div>
+  <div class="section-head">
+    <div><h2 id="sectionTitle">Your collection</h2><p id="sectionSub">Every story has a place here.</p></div>
+  </div>
+  <div class="filters">
+    <button class="filter active" data-status="all">All statuses</button>
+    <button class="filter" data-status="Completed">Completed</button>
+    <button class="filter" data-status="Reading">Reading</button>
+    <button class="filter" data-status="Watching">Watching</button>
+    <button class="filter" data-status="Plan to read">Plan to read</button>
+    <button class="filter" data-status="Plan to watch">Plan to watch</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="note">MY LIBRARY ✦ A home for every story you keep.</p>
+</main>
+<div class="modal" id="modal">
+ <form class="dialog" id="entryForm">
+  <h2>Add a new story</h2>
+  <div class="field"><label for="title">Title</label><input id="title" required maxlength="70" placeholder="e.g. Omniscient Reader"></div>
+  <div class="field"><label for="kind">Collection</label><select id="kind"><option value="manhwa">Manhwa</option><option value="drama">K-drama</option></select></div>
+  <div class="field"><label for="status">Status</label><select id="status"><option>Completed</option><option>Reading</option><option>Watching</option><option>Plan to read</option><option>Plan to watch</option></select></div>
+  <div class="field"><label for="rating">Rating (optional, 1–5)</label><select id="rating"><option value="">Not rated</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+  <div class="field"><label for="noteInput">Your note (optional)</label><textarea id="noteInput" rows="2" maxlength="180" placeholder="What did you think of it?"></textarea></div>
+  <div class="actions"><button type="button" id="closeModal">Cancel</button><button class="add" type="submit">Save entry</button></div>
+ </form>
+</div>
+<script>
+const starter = [
+ {id:1,title:"Omniscient Reader’s Viewpoint",kind:"manhwa",status:"Reading",rating:"",note:"Currently reading — WEBTOON episode 66 context."},
+ {id:2,title:"All of Us Are Dead",kind:"drama",status:"Completed",rating:5,note:"Favourite K-drama · ranked #1."},
+ {id:3,title:"Twinkling Watermelon",kind:"drama",status:"Completed",rating:5,note:"A heart-winning favourite · ranked #2."},
+ {id:4,title:"True Beauty",kind:"drama",status:"Watching",rating:"",note:"Currently watching."}
+];
+let entries;
+try{entries=JSON.parse(localStorage.getItem("littleUniverseEntries"))||starter}catch(e){entries=starter}
+let kind="all",status="all";
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem("littleUniverseEntries",JSON.stringify(entries));render()}
+function render(){
+ const visible=entries.filter(e=>(kind==="all"||e.kind===kind)&&(status==="all"||e.status===status));
+ $("total").textContent=entries.length;
+ $("readCount").textContent=entries.filter(e=>e.kind==="manhwa").length;
+ $("dramaCount").textContent=entries.filter(e=>e.kind==="drama").length;
+ $("sectionTitle").textContent=kind==="all"?"Your collection":kind==="manhwa"?"Manhwa library":"K-drama collection";
+ $("sectionSub").textContent=kind==="all"?"Every story has a place here.":kind==="manhwa"?"Worlds you have explored, one chapter at a time.":"Stories, characters, and moments worth remembering.";
+ $("grid").innerHTML="";
+ if(!visible.length){$("grid").innerHTML='<div class="empty">Nothing here yet. Add a story and make this shelf yours ✨</div>';return}
+ visible.forEach(e=>{
+  const icon=e.kind==="manhwa"?"📚":"🎬", cls=e.status==="Completed"?"done":(["Reading","Watching"].includes(e.status)?"progress":"");
+  const stars=e.rating? "★".repeat(Number(e.rating))+"☆".repeat(5-Number(e.rating)):"Not rated";
+  const card=document.createElement("article");card.className="card";
+  card.innerHTML=`<div class="card-top"><div class="symbol">${icon}</div><span class="status ${cls}">${e.status}</span></div><h3></h3><div class="meta"></div><div class="card-bottom"><span class="stars"></span><button class="delete" title="Remove entry" aria-label="Remove entry">✕</button></div>`;
+  card.querySelector("h3").textContent=e.title;
+  card.querySelector(".meta").textContent=e.note|| (e.kind==="manhwa"?"Manhwa":"K-drama");
+  card.querySelector(".stars").textContent=stars;
+  card.querySelector(".delete").addEventListener("click",()=>{if(confirm(`Remove “${e.title}” from your library?`)){entries=entries.filter(x=>x.id!==e.id);save()}});
+  $("grid").appendChild(card);
+ });
+}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{kind=b.dataset.kind;status="all";document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.status==="all"));document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));render()}));
+document.querySelectorAll(".filter").forEach(b=>b.addEventListener("click",()=>{status=b.dataset.status;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()}));
+$("openModal").onclick=()=>$("modal").classList.add("show");
+$("closeModal").onclick=()=>$("modal").classList.remove("show");
+$("modal").addEventListener("click",e=>{if(e.target===$("modal"))$("modal").classList.remove("show")});
+$("entryForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ entries.unshift({id:Date.now(),title:$("title").value.trim(),kind:$("kind").value,status:$("status").value,rating:$("rating").value,note:$("noteInput").value.trim()});
+ save();$("entryForm").reset();$("modal").classList.remove("show");
+});
+render();
+</script>
+</body>
+</html>
